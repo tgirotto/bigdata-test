@@ -1,5 +1,6 @@
 import os
 import urllib
+import csv
 
 from google.appengine.api import users
 from google.appengine.ext import ndb
@@ -109,8 +110,8 @@ class JsonFileLoader(webapp2.RequestHandler):
         newOrder = Order(parent=guestbook_key(''))
 
 
-        print type
-        print content
+        # print type
+        # print content
         self.response.write(content)
 
         # print self.request.POST['customerId']
@@ -123,8 +124,16 @@ class JsonFileLoader(webapp2.RequestHandler):
 class CsvFileLoader(webapp2.RequestHandler):
 
     def post(self):
-        print self.request.get('csv')
-        self.response.write(self.request.get('csv'))
+        print self.request.get('type')
+
+        check_values = self.request.POST.getall('file')
+
+        array = list(csv.reader(check_values))
+
+        for c in array:
+            print c
+
+        self.response.write(self.request.get('file'))
 
         # print self.request.POST['customerId']
 
@@ -142,6 +151,7 @@ class Key(webapp2.RequestHandler):
 
 
 app = webapp2.WSGIApplication([
-    ('/csv', CsvFileLoader),
-    ('/json', JsonFileLoader),
+    # ('/csv', CsvFileLoader),
+    ('/csv/order', CsvFileLoader),
+    ('/csv/kiosk', CsvFileLoader),
 ], debug=True)
