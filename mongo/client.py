@@ -8,6 +8,7 @@ import csv
 #####################################################################################################################
 dbName = 'cafexapp_core_2_0_0'
 ext = 'csv'
+port = 8080
 
 url='http://localhost'
 
@@ -26,5 +27,5 @@ for c in collections:
 for f in collections:
     files = {'file': open(f.name + '.' + ext, 'rb'), 'type' : f.type}
     headers = {'content-type': 'application/x-www-form-urlencoded'}
-    r = requests.post('http://localhost:8080/csv/' + f.type, files)
+    r = requests.post(url + ':' + str(port) + '/csv/' + f.type, files)
     print r
